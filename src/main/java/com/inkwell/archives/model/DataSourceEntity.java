@@ -20,7 +20,4 @@ public class DataSourceEntity {
 
   @Column(name = "source_name")
   private String sourcename;
-
-
-
 }
