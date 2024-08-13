@@ -3,7 +3,6 @@ package com.inkwell.archives.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 
 // HINT: Major of properties defined in this entity were based on the need to scrape data from specific source.
 @Getter
@@ -19,6 +18,8 @@ public class BookEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "book_id")
   private int id;
+  @Column(name = "book_name")
+  private String bookName;
 
   @Column(name = "book_title")
   private String bookTitle;
@@ -46,6 +47,5 @@ public class BookEntity {
           cascade = CascadeType.PERSIST,
           mappedBy = "books")
   private PurchaseEntity purchases;
-
-
+  
 }

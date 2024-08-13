@@ -21,7 +21,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
   private UserRepository userRepository;
 
-
   @Override
   public UserDetails loadUserByUsername(String useremail) {
 
@@ -36,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     // Taking roles and converting them into SimpleGrantedAuthorities. This is the only way spring security is able to treat them.
     userEntity.getRoles().forEach(role -> authorityList
             .add(
-                    new SimpleGrantedAuthority("ROLE_".concat(role.getRoleenum().name())))
+                    new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name())))
     );
 
     // Taking permission from roles and updates in order to provide them to spring security
@@ -46,8 +45,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     // This is the object must be returned. Looks hard to understand, but this is the manner spring security understands it.
     return new User(
-            userEntity.getUseremail(),
-            userEntity.getUserpassword(),
+            userEntity.getUserEmail(),
+            userEntity.getUserPassword(),
             userEntity.isEnabled(),
             userEntity.isAccountNoExpired(),
             userEntity.isCredentialNoExpired(),
