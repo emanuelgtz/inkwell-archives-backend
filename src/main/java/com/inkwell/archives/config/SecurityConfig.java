@@ -26,19 +26,35 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-  // Creation of security filter chain. Remember, there are different filters request must pass through and then, is going to be time to face our filter(DelegatingFilterProxy).
+  // Creation of security filter chain. Remember, there are different request filters must be  passed through and then, is going to be time for our customize filter(DelegatingFilterProxy).
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception {
     //TODO: For now, we are going to hold over csrf security protocol implementation until last part of the project. Why? We want to speed up everything just to focus on this implementation.
 
-    // Setting url's permissions by using annotations.
+    // Setting url permissions by using annotations.
     // Annotations were not declared here, these were declared at controller file.
     return http
             .csrf(csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .formLogin(form -> form
+                    // The view users will see if they want to login
+                    .loginPage("/login")
+                    // Handles submit at form
+                    .loginProcessingUrl("/process-login")
+                    // The view users will be redirected to if login succeeds
+                    .defaultSuccessUrl("/home", true)
+                    //
+                    .failureUrl("/login?error=true")
+                    .permitAll()
+            )
+            .logout((logoutConfigurer) -> logoutConfigurer
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .permitAll()
+            )
             .build();
   }
 
