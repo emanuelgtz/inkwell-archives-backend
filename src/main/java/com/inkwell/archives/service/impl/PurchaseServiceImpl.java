@@ -66,22 +66,22 @@ public class PurchaseServiceImpl implements PurchaseService {
   public PurchaseEntity createPurchase(PurchaseEntity request) {
     // Validations to avoid having data issues when creating purchases
 
-    if(request.getPurchasedate() == null) {
+    if(request.getPurchaseDate() == null) {
       throw new IllegalArgumentException("Purchase date cannot be null or negative");
     }
 
-    if(request.getPurchaseuser() == null) {
+    if(request.getPurchaseUser() == null) {
       throw new IllegalArgumentException("User cannot be null");
     }
 
-    UserEntity user = userService.findByUserId(request.getPurchaseuser().getId());
+    UserEntity user = userService.findByUserId(request.getPurchaseUser().getId());
 
     if(user == null) {
-      throw new IllegalArgumentException("User with the Id: " + request.getPurchaseuser().getId());
+      throw new IllegalArgumentException("User with the Id: " + request.getPurchaseUser().getId());
     }
 
-    if(request.getPurchasedate() == null) {
-      request.setPurchasedate(new Date());
+    if(request.getPurchaseDate() == null) {
+      request.setPurchaseDate(new Date());
     }
 
     PurchaseEntity savedPurchase = purchaseRepository.save(request);

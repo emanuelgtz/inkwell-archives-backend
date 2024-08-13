@@ -23,28 +23,28 @@ public class UserEntity {
   private int id;
 
   @Column(name = "user_name")
-  private String username;
+  private String userName;
 
   @Column(name = "user_email", unique = true)
-  private String useremail;
+  private String userEmail;
 
   @Column(name = "user_password")
-  private String userpassword;
+  private String userPassword;
 
   @Column(name = "user_age")
-  private String userage;
+  private String userAge;
 
   @Column(name = "user_country")
-  private String usercountry;
+  private String userCountry;
 
   @Column(name = "user_city")
-  private String usercity;
+  private String userCity;
 
   @Column(name = "user_address")
-  private String useraddress;
+  private String userAddress;
 
   @Column(name = "user_role_fk")
-  private RoleEntity userrolefk;
+  private RoleEntity roleFk;
 
   // user details properties
   // These are mandatory to be implemented

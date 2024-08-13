@@ -23,7 +23,7 @@ public class RoleEntity {
   private int id;
 
   @Column(name = "roles_name")
-  private RoleEnum roleenum;
+  private RoleEnum roleEnum;
 
   // Unidirectional relationship
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

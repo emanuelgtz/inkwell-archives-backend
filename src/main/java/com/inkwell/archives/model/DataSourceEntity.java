@@ -19,5 +19,5 @@ public class DataSourceEntity {
   private int id;
 
   @Column(name = "source_name")
-  private String sourcename;
+  private String sourceName;
 }

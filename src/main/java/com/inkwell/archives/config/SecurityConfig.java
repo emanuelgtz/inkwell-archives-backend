@@ -38,7 +38,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .formLogin(form -> form
                     // The view users will see if they want to login
                     .loginPage("/login")

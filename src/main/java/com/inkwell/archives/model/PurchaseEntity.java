@@ -22,12 +22,12 @@ public class PurchaseEntity {
   private int id;
 
   @Column(name = "purchase_date")
-  private Date purchasedate;
+  private Date purchaseDate;
 
   // Unidirectional relationship with UserEntity
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "purchase_user_fk")
-  private UserEntity purchaseuser;
+  private UserEntity purchaseUser;
 
   // Bidirectional ManyToMany relationship between purchase and books
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
