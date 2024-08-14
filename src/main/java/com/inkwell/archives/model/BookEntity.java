@@ -20,29 +20,25 @@ public class BookEntity {
   @Column(name = "book_id")
   private int id;
 
-  @Column(name = "book_name")
-  private String bookname;
-
   @Column(name = "book_title")
-  private String booktitle;
+  private String bookTitle;
 
   @Column(name = "book_price")
-  private int bookprice;
+  private int bookPrice;
 
   @Column(name = "book_stock")
-  private int bookstock;
+  private int bookStock;
 
   @Column(name = "book_upc_code")
-  private String bookupccode;
+  private String upcCode;
 
   @Column(name = "book_category")
-  private String bookcategory;
+  private String bookCategory;
 
   // Unidirectional relationship to data_source
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   @JoinColumn(name = "book_data_source_fk")
-  //TODO: fix this when data_source entity is ready
-  private String ChangeThis;
+  private DataSourceEntity dataSource;
 
   // Bidirectional relationship between Purchase and Book ManyToMany
   @ManyToMany(

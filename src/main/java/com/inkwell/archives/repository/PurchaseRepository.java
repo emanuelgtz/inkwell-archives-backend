@@ -4,11 +4,14 @@ import com.inkwell.archives.model.PurchaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Repository
-public interface PurchaseEntityRepository extends JpaRepository<PurchaseEntity, Integer> {
+public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Integer> {
 
-  Optional<PurchaseEntity> findPurchaseEntityById(int idpurchase);
+  Optional<PurchaseEntity> findByPurchaseEntityId(int purchaseId);
+
+  Optional<PurchaseEntity> findByPurchaseEntityDate(Date date);
 
 }

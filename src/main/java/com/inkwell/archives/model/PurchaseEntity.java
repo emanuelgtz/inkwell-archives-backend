@@ -3,7 +3,9 @@ package com.inkwell.archives.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +36,6 @@ public class PurchaseEntity {
           joinColumns = @JoinColumn(name = "book_id"),
           inverseJoinColumns = @JoinColumn(name = "purchase_id")
   )
-  private BookEntity books;
+  private List<BookEntity> books = new ArrayList<>();
 
 }
