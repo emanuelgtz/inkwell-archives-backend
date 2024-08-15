@@ -46,6 +46,8 @@ public class UserEntity {
   @Column(name = "user_role_fk")
   private RoleEntity roleFk;
 
+
+
   // user details properties
   // These are mandatory to be implemented
   @Column(name = "is_enabled")

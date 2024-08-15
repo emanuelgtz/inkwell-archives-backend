@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,8 @@ public class AuthenticationService {
   // To create/register new users
   public UserEntity signup(UserEntity request) {
     // TODO? This method must have used jwt to provide authentication by using jwt, but for now, we are going to process users without it. We left this for later.
+
+  public AuthResponse signup(UserEntity request) {
     UserEntity newUser = new UserEntity();
 
     newUser.setUserName(request.getUserName());
@@ -60,5 +63,10 @@ public class AuthenticationService {
     return userEmail;
 
   }
+
+    return null;
+
+  }
+
 
 }
