@@ -26,19 +26,16 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-  // Creation of security filter chain. Remember, there are different request filters must be  passed through and then, is going to be time for our customize filter(DelegatingFilterProxy).
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception {
     //TODO: For now, we are going to hold over csrf security protocol implementation until last part of the project. Why? We want to speed up everything just to focus on this implementation.
 
-    // Setting url permissions by using annotations.
-    // Annotations were not declared here, these were declared at controller file.
     return http
             .csrf(csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
+            // change stateless session to if_required because of there is not token authentication procedures.
             .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .formLogin(form -> form
                     // The view users will see if they want to login
                     .loginPage("/login")
@@ -71,7 +68,6 @@ public class SecurityConfig {
   public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService) {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 
-    // At this point we're using password encoder and user details service. However, we must still declare them.
 
     provider.setPasswordEncoder(passwordEncoder());
     provider.setUserDetailsService(userDetailsService);
@@ -81,7 +77,7 @@ public class SecurityConfig {
   // Password Encoder
   @Bean
   public PasswordEncoder passwordEncoder() {
-    // In charge of checking if passwords provided by users are registered and at the same time, perform encryption to password passed in by users/clients.
+
     return new BCryptPasswordEncoder();
   }
 }

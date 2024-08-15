@@ -44,7 +44,9 @@ public class UserEntity {
   private String userAddress;
 
   @Column(name = "user_role_fk")
-  private RoleEntity userRolefk;
+  private RoleEntity roleFk;
+
+
 
   // user details properties
   // These are mandatory to be implemented
