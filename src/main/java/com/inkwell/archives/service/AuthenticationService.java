@@ -1,16 +1,13 @@
 package com.inkwell.archives.service;
 
-import com.inkwell.archives.model.AuthResponse;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
@@ -30,8 +27,6 @@ public class AuthenticationService {
   // To create/register new users
   public UserEntity signup(UserEntity request) {
     // TODO? This method must have used jwt to provide authentication by using jwt, but for now, we are going to process users without it. We left this for later.
-
-  public AuthResponse signup(UserEntity request) {
     UserEntity newUser = new UserEntity();
 
     newUser.setUserName(request.getUserName());
@@ -63,10 +58,5 @@ public class AuthenticationService {
     return userEmail;
 
   }
-
-    return null;
-
-  }
-
-
 }
+
