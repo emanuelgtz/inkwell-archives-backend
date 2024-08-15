@@ -47,7 +47,7 @@ public class AuthenticationService {
   }
 
   // To login users
-  public UserEntity login(UserEntity request) {
+  public UserEntity authenticate(UserEntity request) {
     authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     request.getUserEmail(),

@@ -24,5 +24,14 @@ public class AuthController {
     this.authenticationService = authenticationService;
   }
 
+  @PostMapping("/signup")
+  public ResponseEntity<UserEntity> signup(@RequestBody UserEntity request) {
+    return ResponseEntity.ok(authenticationService.signup(request));
+  }
+
+  @PostMapping("/authenticate")
+  public ResponseEntity<UserEntity> authenticate(@RequestBody UserEntity request) {
+    return ResponseEntity.ok(authenticationService.authenticate(request));
+  }
 
 }
