@@ -36,7 +36,7 @@ public class AuthenticationService {
     newUser.setUserCountry(request.getUserCountry());
     newUser.setUserCity(request.getUserCity());
     newUser.setUserAddress(request.getUserAddress());
-    newUser.setRoleFk(request.getRoleFk());
+    newUser.setRole(request.getRole());
 
     newUser = userRepository.save(newUser);
 

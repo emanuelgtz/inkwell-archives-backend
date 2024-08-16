@@ -43,10 +43,10 @@ public class UserEntity {
   @Column(name = "user_address")
   private String userAddress;
 
-  @Column(name = "user_role_fk")
-  private RoleEntity roleFk;
-
-
+  // Unidirectional relationship
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_role_fk", nullable = false)
+  private RoleEntity role;
 
   // user details properties
   // These are mandatory to be implemented
@@ -62,8 +62,4 @@ public class UserEntity {
   @Column(name = "credential_No_Expired")
   private boolean credentialNoExpired;
 
-  // Unidirectional relationship
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_role_fk", nullable = false)
-  private Set<RoleEntity> roles = new HashSet<>();
 }

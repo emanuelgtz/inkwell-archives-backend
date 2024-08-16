@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DataSourceRepository extends JpaRepository<DataSourceEntity, Integer> {
 
-  Optional<DataSourceEntity> findDataSourceEntityBySourcename(String sourcename);
+  Optional<DataSourceEntity> findBySourceName(String sourceName);
 
 }

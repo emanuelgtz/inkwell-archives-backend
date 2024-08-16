@@ -32,25 +32,29 @@ public class SecurityConfig {
 
     return http
             .csrf(csrf -> csrf.disable())
+            /*.authorizeHttpRequests(auth -> {
+              auth.requestMatchers("/auth/login").permitAll();
+              auth.requestMatchers("/auth/signup").permitAll();
+            })*/
             .httpBasic(Customizer.withDefaults())
             // change stateless session to if_required because of there is not token authentication procedures.
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .formLogin(form -> form
-                    // The view users will see if they want to login
-                    .loginPage("/login")
+                    // The view users will see if they want to log in
+                    .loginPage("/authenticate")
                     // Handles submit at form
                     .loginProcessingUrl("/process-login")
                     // The view users will be redirected to if login succeeds
                     .defaultSuccessUrl("/home", true)
                     //
                     .failureUrl("/login?error=true")
-                    .permitAll()
+
             )
             .logout((logoutConfigurer) -> logoutConfigurer
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login")
-                    .permitAll()
+                    .logoutSuccessUrl("/authenticate")
+
             )
             .build();
   }

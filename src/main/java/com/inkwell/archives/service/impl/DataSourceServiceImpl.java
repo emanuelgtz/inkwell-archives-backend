@@ -41,7 +41,7 @@ public class DataSourceServiceImpl implements DataSourceService {
 
   @Override
   public DataSourceEntity findByDataSourceName(String sourceName) {
-    Optional<DataSourceEntity> result = dataSourceRepository.findDataSourceEntityBySourcename(sourceName);
+    Optional<DataSourceEntity> result = dataSourceRepository.findBySourceName(sourceName);
 
     DataSourceEntity theDataSourceName = null;
 

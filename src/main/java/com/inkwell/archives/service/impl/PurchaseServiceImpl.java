@@ -33,7 +33,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
   @Override
   public PurchaseEntity findByPurchaseId(int purchaseId) {
-    Optional<PurchaseEntity> result = purchaseRepository.findByPurchaseEntityId(purchaseId);
+    Optional<PurchaseEntity> result = purchaseRepository.findById(purchaseId);
 
     PurchaseEntity thePurchaseId = null;
 
@@ -49,7 +49,7 @@ public class PurchaseServiceImpl implements PurchaseService {
   @Override
   public PurchaseEntity findByPurchaseDate(Date purchaseDate) {
 
-    Optional<PurchaseEntity> result = purchaseRepository.findByPurchaseEntityDate(purchaseDate);
+    Optional<PurchaseEntity> result = purchaseRepository.findByPurchaseDate(purchaseDate);
 
     PurchaseEntity thePurchaseDate = null;
 

@@ -4,6 +4,8 @@ package com.inkwell.archives.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.awt.print.Book;
+
 @Getter
 @Setter
 @Builder
@@ -20,4 +22,5 @@ public class DataSourceEntity {
 
   @Column(name = "source_name")
   private String sourceName;
+
 }

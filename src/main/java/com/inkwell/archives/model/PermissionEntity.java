@@ -2,7 +2,6 @@ package com.inkwell.archives.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 @Getter
 @Setter
 @Builder
@@ -20,5 +19,5 @@ public class PermissionEntity {
   @Column(name = "permissions")
   private String permission;
 
-
 }
+

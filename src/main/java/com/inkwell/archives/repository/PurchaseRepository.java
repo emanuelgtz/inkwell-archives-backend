@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Integer> {
 
-  Optional<PurchaseEntity> findByPurchaseEntityId(int purchaseId);
+  Optional<PurchaseEntity> findById(int purchaseId);
 
-  Optional<PurchaseEntity> findByPurchaseEntityDate(Date date);
+  Optional<PurchaseEntity> findByPurchaseDate(Date date);
 
 }

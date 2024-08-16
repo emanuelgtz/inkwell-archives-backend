@@ -3,7 +3,6 @@ package com.inkwell.archives.model;
 import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -28,6 +28,6 @@ public class RoleEntity {
   // Unidirectional relationship
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "roles_permissions_fk")
-  private Set<PermissionEntity> permissions = new HashSet<>();
+  private PermissionEntity permissionList;
 
 }

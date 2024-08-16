@@ -4,6 +4,11 @@ package com.inkwell.archives.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 // HINT: Major of properties defined in this entity were based on the need to scrape data from specific source.
 @Getter
 @Setter
@@ -46,6 +51,5 @@ public class BookEntity {
           fetch = FetchType.EAGER,
           cascade = CascadeType.PERSIST,
           mappedBy = "books")
-  private PurchaseEntity purchases;
-  
+  private List<PurchaseEntity> purchases = new ArrayList<>();
 }

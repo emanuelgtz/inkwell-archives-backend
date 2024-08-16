@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @PreAuthorize("denyAll")
 public class AuthController {
-
-
   private final AuthenticationService authenticationService;
 
   @Autowired
@@ -26,6 +24,7 @@ public class AuthController {
     this.authenticationService = authenticationService;
   }
 
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/signup")
   public ResponseEntity<UserEntity> signup(@RequestBody UserEntity request) {
     return ResponseEntity.ok(authenticationService.signup(request));

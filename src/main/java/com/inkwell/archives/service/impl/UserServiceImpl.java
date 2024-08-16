@@ -4,7 +4,6 @@ import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
 import com.inkwell.archives.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   @Autowired
   public UserServiceImpl(UserRepository userRepository) {
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserEntity findByUserEmail(String userEmail) {
-    Optional<UserEntity> result = userRepository.findUserEntityByUseremail(userEmail);
+    Optional<UserEntity> result = userRepository.findByUserEmail(userEmail);
 
     UserEntity theUserEmail = null;
 
