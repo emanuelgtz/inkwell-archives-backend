@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
 
-    authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(userEntity.getRole().getRoleEnum().name())));
+    authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(userEntity.getRole().getRoleName())));
 
     // Taking permission from roles and updates in order to provide them to spring security
     userEntity.getRole().getPermissionList().stream()

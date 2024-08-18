@@ -1,5 +1,6 @@
 package com.inkwell.archives.service;
 
+import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.RolesRepository;
 import com.inkwell.archives.repository.UserRepository;
@@ -26,7 +27,6 @@ public class AuthenticationService {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.authenticationManager = authenticationManager;
-
     this.rolesRepository = rolesRepository;
   }
 
@@ -35,6 +35,7 @@ public class AuthenticationService {
     // TODO? This method must have used jwt to provide authentication by using jwt, but for now, we are going to process users without it. We left this for later.
     UserEntity newUser = new UserEntity();
 
+    rolesRepository.findByRoleName(request.getRole().getRoleName());
 
     newUser.setUserName(request.getUserName());
     newUser.setUserEmail(request.getUserEmail());
@@ -43,7 +44,12 @@ public class AuthenticationService {
     newUser.setUserCountry(request.getUserCountry());
     newUser.setUserCity(request.getUserCity());
     newUser.setUserAddress(request.getUserAddress());
-    newUser.setRole(request.getRole());
+    newUser.setRole(
+            rolesRepository.findByRoleName(request.getRole().getRoleName())
+    );
+
+
+
 
     newUser = userRepository.save(newUser);
 

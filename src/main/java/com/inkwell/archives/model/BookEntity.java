@@ -11,7 +11,9 @@ import java.util.List;
 @Table(name = "books")
 public class BookEntity {
 
-  public BookEntity(String bookName, String bookTitle, int bookPrice, int bookStock, String upcCode, String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
+  public BookEntity(String bookName, String bookTitle,
+                    int bookPrice, int bookStock, String upcCode,
+                    String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
     this.bookName = bookName;
     this.bookTitle = bookTitle;
     this.bookPrice = bookPrice;
@@ -22,8 +24,7 @@ public class BookEntity {
     this.purchases = purchases;
   }
 
-  public BookEntity() {
-  }
+  public BookEntity() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +59,9 @@ public class BookEntity {
           cascade = CascadeType.PERSIST,
           mappedBy = "books")
   private List<PurchaseEntity> purchases = new ArrayList<>();
+
+
+
 
   public int getId() {
     return id;

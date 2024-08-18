@@ -14,33 +14,29 @@ public class DataSourceEntity {
     this.sourceName = sourceName;
   }
 
-  public DataSourceEntity() {
-  }
+  public DataSourceEntity() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "data_source_id")
   private int id;
-
   @Column(name = "source_name")
   private String sourceName;
+
+
 
   public int getId() {
     return id;
   }
-
   public void setId(int id) {
     this.id = id;
   }
-
   public String getSourceName() {
     return sourceName;
   }
-
   public void setSourceName(String sourceName) {
     this.sourceName = sourceName;
   }
-
   @Override
   public String toString() {
     return "DataSourceEntity{" +

@@ -11,14 +11,13 @@ import java.util.List;
 @Table(name = "purchase")
 public class PurchaseEntity {
 
-  public PurchaseEntity(Date purchaseDate, UserEntity purchaseUser, List<BookEntity> books) {
+  public PurchaseEntity(Date purchaseDate, UserEntity purchaseUser,
+                        List<BookEntity> books) {
     this.purchaseDate = purchaseDate;
     this.purchaseUser = purchaseUser;
     this.books = books;
   }
-
-  public PurchaseEntity() {
-  }
+  public PurchaseEntity() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +37,7 @@ public class PurchaseEntity {
   @JoinTable(
           name = "purchased_books",
           joinColumns = @JoinColumn(name = "book_id"),
-          inverseJoinColumns = @JoinColumn(name = "purchase_id")
-  )
+          inverseJoinColumns = @JoinColumn(name = "purchase_id"))
   private List<BookEntity> books = new ArrayList<>();
 
   public int getId() {

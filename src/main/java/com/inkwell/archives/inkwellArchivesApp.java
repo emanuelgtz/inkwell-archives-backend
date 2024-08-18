@@ -22,21 +22,5 @@ public class inkwellArchivesApp {
 
 	}
 
-	@Autowired
-	RolesRepository rolesRepository;
-
-	@Bean
-	public CommandLineRunner startup() {
-
-		return args -> {
-
-			RoleEntity role = rolesRepository.findById(2);
-
-			System.out.println(role);
-
-		};
-
-	}
-
 
 }

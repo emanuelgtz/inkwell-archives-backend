@@ -1,8 +1,6 @@
 package com.inkwell.archives.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +12,11 @@ import java.util.List;
 @Table(name = "users")
 public class UserEntity implements UserDetails {
 
-  public UserEntity(String userName, String userEmail, String userPassword, String userAge, String userCountry, String userCity, String userAddress, RoleEntity role) {
+  public UserEntity(String userName, String userEmail,
+                    String userPassword, String userAge,
+                    String userCountry,
+                    String userCity, String userAddress,
+                    RoleEntity role) {
     this.userName = userName;
     this.userEmail = userEmail;
     this.userPassword = userPassword;
@@ -25,8 +27,7 @@ public class UserEntity implements UserDetails {
     this.role = role;
   }
 
-  public UserEntity() {
-  }
+  public UserEntity() {}
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +37,7 @@ public class UserEntity implements UserDetails {
   @Column(name = "user_name")
   private String userName;
 
-  @Column(name = "user_email")
+  @Column(name = "user_email", unique = true, nullable = false)
   private String userEmail;
 
   @Column(name = "user_password")
@@ -149,7 +150,7 @@ public class UserEntity implements UserDetails {
   // UserDetails methods
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role.getRoleEnum().name()));
+    return List.of(new SimpleGrantedAuthority(role.getRoleName()));
   }
 
   @Override
