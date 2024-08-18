@@ -4,6 +4,7 @@ import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,33 +36,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
     // Taking roles and converting them into SimpleGrantedAuthorities. This is the only way spring security is able to treat them.
-    RoleEntity role = userEntity.getRole();
-    if(role != null) {
-      authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name())));
 
-      authorityList.add(new SimpleGrantedAuthority(role.getPermissionList().getPermission()));
 
-    }
 
-    /*userEntity.getRole().forEach(role -> authorityList
-            .add(
-                    new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name())))
-    );*/
+    authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(userEntity.getRole().getRoleEnum().name())));
 
     // Taking permission from roles and updates in order to provide them to spring security
-    /*userEntity.getRole().stream()
-            .map(role -> role.getPermissions())
-            .filter(Objects::nonNull)
-            .forEach(permission -> authorityList.add(new SimpleGrantedAuthority(permission.getPermission())));*/
+    userEntity.getRole().getPermissionList().stream()
+            .forEach(permission -> authorityList.add(
+                    new SimpleGrantedAuthority(permission.getPermission())));
 
 
     return new User(
             userEntity.getUserEmail(),
             userEntity.getUserPassword(),
             userEntity.isEnabled(),
-            userEntity.isAccountNoExpired(),
-            userEntity.isCredentialNoExpired(),
-            userEntity.isAccountNoLocked(),
+            userEntity.isAccountNonExpired(),
+            userEntity.isCredentialsNonExpired(),
+            userEntity.isAccountNonLocked(),
             authorityList
     );
   }

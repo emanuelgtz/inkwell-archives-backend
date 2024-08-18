@@ -3,21 +3,27 @@ package com.inkwell.archives.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 // HINT: Major of properties defined in this entity were based on the need to scrape data from specific source.
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "books")
 public class BookEntity {
+
+  public BookEntity(String bookName, String bookTitle, int bookPrice, int bookStock, String upcCode, String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
+    this.bookName = bookName;
+    this.bookTitle = bookTitle;
+    this.bookPrice = bookPrice;
+    this.bookStock = bookStock;
+    this.upcCode = upcCode;
+    this.bookCategory = bookCategory;
+    this.dataSource = dataSource;
+    this.purchases = purchases;
+  }
+
+  public BookEntity() {
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +58,91 @@ public class BookEntity {
           cascade = CascadeType.PERSIST,
           mappedBy = "books")
   private List<PurchaseEntity> purchases = new ArrayList<>();
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getBookName() {
+    return bookName;
+  }
+
+  public void setBookName(String bookName) {
+    this.bookName = bookName;
+  }
+
+  public String getBookTitle() {
+    return bookTitle;
+  }
+
+  public void setBookTitle(String bookTitle) {
+    this.bookTitle = bookTitle;
+  }
+
+  public int getBookPrice() {
+    return bookPrice;
+  }
+
+  public void setBookPrice(int bookPrice) {
+    this.bookPrice = bookPrice;
+  }
+
+  public int getBookStock() {
+    return bookStock;
+  }
+
+  public void setBookStock(int bookStock) {
+    this.bookStock = bookStock;
+  }
+
+  public String getUpcCode() {
+    return upcCode;
+  }
+
+  public void setUpcCode(String upcCode) {
+    this.upcCode = upcCode;
+  }
+
+  public String getBookCategory() {
+    return bookCategory;
+  }
+
+  public void setBookCategory(String bookCategory) {
+    this.bookCategory = bookCategory;
+  }
+
+  public DataSourceEntity getDataSource() {
+    return dataSource;
+  }
+
+  public void setDataSource(DataSourceEntity dataSource) {
+    this.dataSource = dataSource;
+  }
+
+  public List<PurchaseEntity> getPurchases() {
+    return purchases;
+  }
+
+  public void setPurchases(List<PurchaseEntity> purchases) {
+    this.purchases = purchases;
+  }
+
+  @Override
+  public String toString() {
+    return "BookEntity{" +
+            "id=" + id +
+            ", bookName='" + bookName + '\'' +
+            ", bookTitle='" + bookTitle + '\'' +
+            ", bookPrice=" + bookPrice +
+            ", bookStock=" + bookStock +
+            ", upcCode='" + upcCode + '\'' +
+            ", bookCategory='" + bookCategory + '\'' +
+            ", dataSource=" + dataSource +
+            ", purchases=" + purchases +
+            '}';
+  }
 }

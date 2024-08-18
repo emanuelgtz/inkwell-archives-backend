@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "purchase")
 public class PurchaseEntity {
+
+  public PurchaseEntity(Date purchaseDate, UserEntity purchaseUser, List<BookEntity> books) {
+    this.purchaseDate = purchaseDate;
+    this.purchaseUser = purchaseUser;
+    this.books = books;
+  }
+
+  public PurchaseEntity() {
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +42,45 @@ public class PurchaseEntity {
   )
   private List<BookEntity> books = new ArrayList<>();
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public Date getPurchaseDate() {
+    return purchaseDate;
+  }
+
+  public void setPurchaseDate(Date purchaseDate) {
+    this.purchaseDate = purchaseDate;
+  }
+
+  public UserEntity getPurchaseUser() {
+    return purchaseUser;
+  }
+
+  public void setPurchaseUser(UserEntity purchaseUser) {
+    this.purchaseUser = purchaseUser;
+  }
+
+  public List<BookEntity> getBooks() {
+    return books;
+  }
+
+  public void setBooks(List<BookEntity> books) {
+    this.books = books;
+  }
+
+  @Override
+  public String toString() {
+    return "PurchaseEntity{" +
+            "id=" + id +
+            ", purchaseDate=" + purchaseDate +
+            ", purchaseUser=" + purchaseUser +
+            ", books=" + books +
+            '}';
+  }
 }
