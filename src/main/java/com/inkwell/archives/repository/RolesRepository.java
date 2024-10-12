@@ -12,7 +12,6 @@ public interface RolesRepository extends JpaRepository<RoleEntity, Integer> {
 
   RoleEntity findById(int id);
   RoleEntity findByRoleName(String roleName);
-
   Set<PermissionEntity> findPermissionListByRole(RoleEntity roleName);
 
 }

@@ -7,6 +7,7 @@ import com.inkwell.archives.repository.PurchaseRepository;
 import com.inkwell.archives.service.interfaces.PurchaseService;
 import com.inkwell.archives.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,21 +17,17 @@ import java.util.Optional;
 
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
-
-  private PurchaseRepository purchaseRepository;
-
   @Autowired
   private UserService userService;
+  private PurchaseRepository purchaseRepository;
   @Autowired
   public PurchaseServiceImpl(PurchaseRepository purchaseRepository) {
     this.purchaseRepository = purchaseRepository;
   }
-
   @Override
   public List<PurchaseEntity> findAll() {
     return purchaseRepository.findAll();
   }
-
   @Override
   public PurchaseEntity findByPurchaseId(int purchaseId) {
     Optional<PurchaseEntity> result = purchaseRepository.findById(purchaseId);
@@ -42,7 +39,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     } else {
       throw new RuntimeException("Finding requested purchase id was not possible " + purchaseId);
     }
-
     return thePurchaseId;
   }
 
@@ -63,32 +59,32 @@ public class PurchaseServiceImpl implements PurchaseService {
   }
 
   @Override
-  public PurchaseEntity createPurchase(PurchaseEntity request) {
+  public PurchaseEntity createPurchase(PurchaseEntity request, List<BookEntity> books) {
     // Validations to avoid having data issues when creating purchases
 
     if(request.getPurchaseDate() == null) {
-      throw new IllegalArgumentException("Purchase date cannot be null or negative");
+      throw new IllegalArgumentException("Purchase cannot be null");
     }
 
     if(request.getPurchaseUser() == null) {
-      throw new IllegalArgumentException("User cannot be null");
+      throw new IllegalArgumentException("Purchase user cannot be null");
     }
 
-    UserEntity user = userService.findByUserId(request.getPurchaseUser().getId());
-
-    if(user == null) {
-      throw new IllegalArgumentException("User with the Id: " + request.getPurchaseUser().getId());
+    if (request.getBooks().isEmpty()) {
+      throw new RuntimeException("Books list cannot be empty");
     }
 
-    if(request.getPurchaseDate() == null) {
-      request.setPurchaseDate(new Date());
-    }
+    UserEntity userId =
+            userService.findByUserId(
+                    request.getPurchaseUser().getId()
+            );
+
+    // Set the purchase data and user id
+    request.setPurchaseUser(userId);
+    request.setPurchaseDate(new Date());
+    request.setBooks(books);
 
     PurchaseEntity savedPurchase = purchaseRepository.save(request);
-
-    List<BookEntity> books = new ArrayList<>();
-
-    request.setBooks(books);
 
     return savedPurchase;
   }

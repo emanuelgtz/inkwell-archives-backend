@@ -23,8 +23,6 @@ public class DataSourceEntity {
   @Column(name = "source_name")
   private String sourceName;
 
-
-
   public int getId() {
     return id;
   }

@@ -9,11 +9,13 @@ import java.util.List;
 // HINT: Major of properties defined in this entity were based on the need to scrape data from specific source.
 @Entity
 @Table(name = "books")
-public class BookEntity {
+public class BookEntity
+{
 
-  public BookEntity(String bookName, String bookTitle,
-                    int bookPrice, int bookStock, String upcCode,
-                    String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
+  public BookEntity(
+          String bookName, String bookTitle,
+          int bookPrice, int bookStock, String upcCode,
+          String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
     this.bookName = bookName;
     this.bookTitle = bookTitle;
     this.bookPrice = bookPrice;
@@ -37,7 +39,7 @@ public class BookEntity {
   private String bookTitle;
 
   @Column(name = "book_price")
-  private int bookPrice;
+  private float bookPrice;
 
   @Column(name = "book_stock")
   private int bookStock;
@@ -63,6 +65,7 @@ public class BookEntity {
 
 
 
+  // Getters and Setters
   public int getId() {
     return id;
   }
@@ -87,7 +90,7 @@ public class BookEntity {
     this.bookTitle = bookTitle;
   }
 
-  public int getBookPrice() {
+  public float getBookPrice() {
     return bookPrice;
   }
 

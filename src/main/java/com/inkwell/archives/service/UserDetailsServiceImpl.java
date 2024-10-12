@@ -1,5 +1,8 @@
 package com.inkwell.archives.service;
 
+import com.inkwell.archives.enums.PermissionEnum;
+import com.inkwell.archives.enums.RoleEnum;
+import com.inkwell.archives.model.PermissionEntity;
 import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
@@ -23,29 +26,31 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
-
   @Override
   public UserDetails loadUserByUsername(String userEmail) {
 
-    UserEntity userEntity = userRepository.findByUserEmail(userEmail)
-            .orElseThrow(() ->
-                    new UsernameNotFoundException("The user " + userEmail + " does not exist")
-            );
-
-    // List to store authorities user contains in its object/instantiation.
+    // List to store authorities user contains on its object/instantiation.
     List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
-    // Taking roles and converting them into SimpleGrantedAuthorities. This is the only way spring security is able to treat them.
+    UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() ->
+            new UsernameNotFoundException("The user " + userEmail + " does not exist")
+    );
 
 
 
-    authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(userEntity.getRole().getRoleName())));
+    if(userEntity.getRole() != null) {
+      for(RoleEntity role : userEntity.getRole()) {
+        authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleName().toString())));
 
-    // Taking permission from roles and updates in order to provide them to spring security
-    userEntity.getRole().getPermissionList().stream()
-            .forEach(permission -> authorityList.add(
-                    new SimpleGrantedAuthority(permission.getPermission())));
+        // Validation filter to permissions
+        if(role.getPermissionList() != null) {
+          for(PermissionEntity permission : role.getPermissionList()) {
+            authorityList.add(new SimpleGrantedAuthority(permission.getPermission().toString()));
+          }
+        }
 
+      }
+    }
 
     return new User(
             userEntity.getUserEmail(),

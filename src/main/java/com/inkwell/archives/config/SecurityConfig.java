@@ -25,45 +25,30 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception {
-    //TODO: For now, we are going to hold over csrf security protocol implementation until last part of the project. Why? We want to speed up everything just to focus on this implementation.
-
-    return http
-            .csrf(csrf -> csrf.disable())
-            /*.authorizeHttpRequests(auth -> {
-              auth.requestMatchers("/auth/login").permitAll();
-              auth.requestMatchers("/auth/signup").permitAll();
-            })*/
+  public SecurityFilterChain securityFilterChain( HttpSecurity http) throws  Exception {
+    // TODO: For now, we are going to hold over csrf security protocol implementation for last part of the project. Why? We want to speed up everything just to focus on this implementation.
+    return http.csrf(
+            csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
-            // change stateless session to if_required because of there is not token authentication procedures.
-            .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .sessionManagement(session -> session.sessionCreationPolicy(
+                    SessionCreationPolicy.ALWAYS))
+            // These are views users will see if they want to log in
             .formLogin(form -> form
-                    // The view users will see if they want to log in
                     .loginPage("/authenticate")
-                    // Handles submit at form
                     .loginProcessingUrl("/process-login")
-                    // The view users will be redirected to if login succeeds
                     .defaultSuccessUrl("/home", true)
-                    //
-                    .failureUrl("/login?error=true")
-
-            )
+                    .failureUrl("/login?error=true"))
             .logout((logoutConfigurer) -> logoutConfigurer
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/authenticate")
-
-            )
+                    .logoutSuccessUrl("/authenticate"))
             .build();
   }
 
   // Authentication manager
   @Bean
-  public AuthenticationManager authenticationManager(
-          AuthenticationConfiguration authenticationConfiguration
-  ) throws Exception {
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+          throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
@@ -71,8 +56,6 @@ public class SecurityConfig {
   @Bean
   public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService) {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
-
     provider.setPasswordEncoder(passwordEncoder());
     provider.setUserDetailsService(userDetailsService);
     return provider;
@@ -81,7 +64,7 @@ public class SecurityConfig {
   // Password Encoder
   @Bean
   public PasswordEncoder passwordEncoder() {
-
     return new BCryptPasswordEncoder();
   }
+
 }

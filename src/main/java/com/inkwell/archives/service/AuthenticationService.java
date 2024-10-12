@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class AuthenticationService {
   private final UserRepository userRepository;
@@ -23,7 +22,8 @@ public class AuthenticationService {
   public AuthenticationService(
           UserRepository userRepository,
           PasswordEncoder passwordEncoder,
-          AuthenticationManager authenticationManager, RolesRepository rolesRepository) {
+          AuthenticationManager authenticationManager, RolesRepository rolesRepository)
+  {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.authenticationManager = authenticationManager;
@@ -32,10 +32,8 @@ public class AuthenticationService {
 
   // To create/register new users
   public UserEntity signup(UserEntity request) {
-    // TODO? This method must have used jwt to provide authentication by using jwt, but for now, we are going to process users without it. We left this for later.
-    UserEntity newUser = new UserEntity();
 
-    rolesRepository.findByRoleName(request.getRole().getRoleName());
+    UserEntity newUser = new UserEntity();
 
     newUser.setUserName(request.getUserName());
     newUser.setUserEmail(request.getUserEmail());
@@ -44,32 +42,22 @@ public class AuthenticationService {
     newUser.setUserCountry(request.getUserCountry());
     newUser.setUserCity(request.getUserCity());
     newUser.setUserAddress(request.getUserAddress());
-    newUser.setRole(
-            rolesRepository.findByRoleName(request.getRole().getRoleName())
-    );
-
-
-
-
+    newUser.setRole(request.getRole());
     newUser = userRepository.save(newUser);
-
     return newUser;
-
   }
 
-  // To login users
   public UserEntity authenticate(UserEntity request) {
+
     authenticationManager.authenticate(
+
             new UsernamePasswordAuthenticationToken(
-                    request.getUserEmail(),
-                    request.getUserPassword()
-            )
-    );
+                    request.getUserEmail(), request.getUserPassword()));
 
-    UserEntity userEmail = userRepository.findByUserEmail(request.getUserEmail()).orElseThrow();
-
+    UserEntity userEmail =
+            userRepository.findByUserEmail(request.getUserEmail()).orElseThrow();
     return userEmail;
+  };
 
-  }
-}
+};
 

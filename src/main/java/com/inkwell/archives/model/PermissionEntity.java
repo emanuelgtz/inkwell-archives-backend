@@ -1,5 +1,7 @@
 package com.inkwell.archives.model;
 
+import com.inkwell.archives.enums.PermissionEnum;
+import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,22 +11,19 @@ import java.util.Set;
 @Entity
 @Table(name = "permissions")
 public class PermissionEntity {
-
-  public PermissionEntity(String permission, Set<RoleEntity> rolesList) {
+  public PermissionEntity(PermissionEnum permission, Set<RoleEntity> rolesList) {
     this.permission = permission;
     this.rolesList = rolesList;
   }
-
-  public PermissionEntity() {
-  }
-
+  public PermissionEntity() {}
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "permissions_id")
   private int id;
 
   @Column(name = "permission")
-  private String permission;
+  @Enumerated(EnumType.STRING)
+  private PermissionEnum permission;
 
   // Bidirectional ManyToMany relationship to RoleEntity
   @ManyToMany(
@@ -35,9 +34,6 @@ public class PermissionEntity {
           inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<RoleEntity> rolesList = new HashSet<>();
 
-
-
-
   public int getId() {
     return id;
   }
@@ -46,11 +42,11 @@ public class PermissionEntity {
     this.id = id;
   }
 
-  public String getPermission() {
+  public PermissionEnum getPermission() {
     return permission;
   }
 
-  public void setPermission(String permission) {
+  public void setPermission(PermissionEnum permission) {
     this.permission = permission;
   }
 

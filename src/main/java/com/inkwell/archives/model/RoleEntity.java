@@ -1,5 +1,7 @@
 package com.inkwell.archives.model;
 
+import com.inkwell.archives.enums.PermissionEnum;
+import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -8,11 +10,11 @@ import java.util.Set;
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
-  public RoleEntity(String roleName,
-                    Set<PermissionEntity> permissionList) {
+  public RoleEntity(RoleEnum roleName, Set<PermissionEntity> permissionList) {
     this.roleName = roleName;
     this.permissionList = permissionList;
   }
+
   public RoleEntity() {}
 
   @Id
@@ -21,7 +23,8 @@ public class RoleEntity {
   private int id;
 
   @Column(name = "roles_name")
-  private String roleName;
+  @Enumerated(EnumType.STRING)
+  private RoleEnum roleName;
 
   // Bidirectional ManyToMany relationship to PermissionEntity
   @ManyToMany(
@@ -32,6 +35,7 @@ public class RoleEntity {
           inverseJoinColumns = @JoinColumn(name = "permission_id"))
   private Set<PermissionEntity> permissionList = new HashSet<>();
 
+
   public int getId() {
     return id;
   }
@@ -40,12 +44,11 @@ public class RoleEntity {
     this.id = id;
   }
 
-
-  public String getRoleName() {
+  public RoleEnum getRoleName() {
     return roleName;
   }
 
-  public void setRoleName(String roleName) {
+  public void setRoleName(RoleEnum roleName) {
     this.roleName = roleName;
   }
 
