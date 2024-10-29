@@ -6,6 +6,7 @@ import com.inkwell.archives.model.PermissionEntity;
 import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
+import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,7 +36,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(() ->
             new UsernameNotFoundException("The user " + userEmail + " does not exist")
     );
-
 
 
     if(userEntity.getRole() != null) {

@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @PreAuthorize("permitAll")
-public class AuthController
-{
+public class AuthController {
   private final AuthenticationService authenticationService;
   @Autowired
   public AuthController(AuthenticationService authenticationService) {
@@ -28,10 +27,8 @@ public class AuthController
     return ResponseEntity.ok(authenticationService.signup(request));
   }
   @PreAuthorize("permitAll")
-  @PostMapping("/authenticate")
-  public ResponseEntity<UserEntity> authenticate(
-          @RequestBody UserEntity request) {
+  @GetMapping("/authenticate")
+  public ResponseEntity<UserEntity> authenticate(@RequestBody UserEntity request) {
     return ResponseEntity.ok(authenticationService.authenticate(request));
   }
-
 }

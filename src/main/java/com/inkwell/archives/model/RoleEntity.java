@@ -1,40 +1,39 @@
 package com.inkwell.archives.model;
-
-import com.inkwell.archives.enums.PermissionEnum;
 import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
+import lombok.Builder;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
-  public RoleEntity(RoleEnum roleName, Set<PermissionEntity> permissionList) {
+  @Builder
+  public RoleEntity(
+          String roleName,
+          List<PermissionEntity> permissionList) {
     this.roleName = roleName;
     this.permissionList = permissionList;
   }
 
   public RoleEntity() {}
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "roles_id")
   private int id;
 
   @Column(name = "roles_name")
-  @Enumerated(EnumType.STRING)
-  private RoleEnum roleName;
+  private String roleName;
 
   // Bidirectional ManyToMany relationship to PermissionEntity
-  @ManyToMany(
-          fetch = FetchType.EAGER,
-          cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToMany
   @JoinTable(name = "roles_permissions",
           joinColumns = @JoinColumn(name = "role_id"),
           inverseJoinColumns = @JoinColumn(name = "permission_id"))
-  private Set<PermissionEntity> permissionList = new HashSet<>();
-
+  private List<PermissionEntity> permissionList = new ArrayList<>();
 
   public int getId() {
     return id;
@@ -44,19 +43,19 @@ public class RoleEntity {
     this.id = id;
   }
 
-  public RoleEnum getRoleName() {
+  public String getRoleName() {
     return roleName;
   }
 
-  public void setRoleName(RoleEnum roleName) {
+  public void setRoleName(String roleName) {
     this.roleName = roleName;
   }
 
-  public Set<PermissionEntity> getPermissionList() {
+  public List<PermissionEntity> getPermissionList() {
     return permissionList;
   }
 
-  public void setPermissionList(Set<PermissionEntity> permissionList) {
+  public void setPermissionList(List<PermissionEntity> permissionList) {
     this.permissionList = permissionList;
   }
 
@@ -64,7 +63,7 @@ public class RoleEntity {
   public String toString() {
     return "RoleEntity{" +
             "id=" + id +
-            ", roleEnum=" + roleName +
+            ", roleName='" + roleName + '\'' +
             ", permissionList=" + permissionList +
             '}';
   }

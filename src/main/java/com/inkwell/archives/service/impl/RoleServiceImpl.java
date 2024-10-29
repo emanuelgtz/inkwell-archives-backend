@@ -22,11 +22,7 @@ import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-
-  @Autowired
-  private RoleService roleService;
   private final RolesRepository rolesRepository;
-
   @Autowired
   public RoleServiceImpl(RolesRepository rolesRepository) {
     this.rolesRepository = rolesRepository;
@@ -43,14 +39,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  @PostConstruct
-  public RoleEntity createRoleDefault(
-          RoleEntity request,
-          Set<PermissionEntity> permissionList) {
-
-
-
-
+  public RoleEntity createRoleDefault(RoleEntity request, Set<PermissionEntity> permissionList) {
     RoleEntity roleSaved = rolesRepository.save(request);
     return roleSaved;
   }
