@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
     UserEntity theUserEmail = null;
 
-
     if(result.isPresent()) {
       theUserEmail = result.get();
     } else {
@@ -51,8 +50,6 @@ public class UserServiceImpl implements UserService {
     }
     return theUserEmail;
   }
-
-
 
 
   @Override

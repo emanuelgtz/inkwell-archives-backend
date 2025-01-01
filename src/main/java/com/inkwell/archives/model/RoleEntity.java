@@ -1,12 +1,10 @@
 package com.inkwell.archives.model;
-import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Builder;
 
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")

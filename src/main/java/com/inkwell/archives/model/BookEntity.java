@@ -5,25 +5,22 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // HINT: Major of properties defined in this entity were based on the need to scrape data from specific source.
 @Entity
 @Table(name = "books")
-public class BookEntity
-{
-
+public class BookEntity {
   public BookEntity(
-          String bookName, String bookTitle,
+          String bookTitle,
           int bookPrice, int bookStock, String upcCode,
-          String bookCategory, DataSourceEntity dataSource, List<PurchaseEntity> purchases) {
-    this.bookName = bookName;
+          String bookCategory, DataSourceEntity dataSource) {
     this.bookTitle = bookTitle;
     this.bookPrice = bookPrice;
     this.bookStock = bookStock;
     this.upcCode = upcCode;
     this.bookCategory = bookCategory;
     this.dataSource = dataSource;
-    this.purchases = purchases;
   }
 
   public BookEntity() {}
@@ -32,8 +29,6 @@ public class BookEntity
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "book_id")
   private int id;
-  @Column(name = "book_name")
-  private String bookName;
 
   @Column(name = "book_title")
   private String bookTitle;
@@ -51,35 +46,16 @@ public class BookEntity
   private String bookCategory;
 
   // Unidirectional relationship to data_source
-  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "book_data_source_fk")
   private DataSourceEntity dataSource;
 
-  // Bidirectional relationship between Purchase and Book ManyToMany
-  @ManyToMany(
-          fetch = FetchType.EAGER,
-          cascade = CascadeType.PERSIST,
-          mappedBy = "books")
-  private List<PurchaseEntity> purchases = new ArrayList<>();
-
-
-
-
-  // Getters and Setters
   public int getId() {
     return id;
   }
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getBookName() {
-    return bookName;
-  }
-
-  public void setBookName(String bookName) {
-    this.bookName = bookName;
   }
 
   public String getBookTitle() {
@@ -94,7 +70,7 @@ public class BookEntity
     return bookPrice;
   }
 
-  public void setBookPrice(int bookPrice) {
+  public void setBookPrice(float bookPrice) {
     this.bookPrice = bookPrice;
   }
 
@@ -130,26 +106,19 @@ public class BookEntity
     this.dataSource = dataSource;
   }
 
-  public List<PurchaseEntity> getPurchases() {
-    return purchases;
-  }
-
-  public void setPurchases(List<PurchaseEntity> purchases) {
-    this.purchases = purchases;
-  }
-
   @Override
   public String toString() {
     return "BookEntity{" +
             "id=" + id +
-            ", bookName='" + bookName + '\'' +
             ", bookTitle='" + bookTitle + '\'' +
             ", bookPrice=" + bookPrice +
             ", bookStock=" + bookStock +
             ", upcCode='" + upcCode + '\'' +
             ", bookCategory='" + bookCategory + '\'' +
             ", dataSource=" + dataSource +
-            ", purchases=" + purchases +
             '}';
+  }
+
+  public void setDataSource(Optional<DataSourceEntity> byId) {
   }
 }

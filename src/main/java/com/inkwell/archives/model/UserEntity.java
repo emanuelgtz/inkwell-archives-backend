@@ -1,8 +1,6 @@
 package com.inkwell.archives.model;
 
-import com.inkwell.archives.enums.RoleEnum;
 import jakarta.persistence.*;
-import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -38,19 +35,19 @@ public class UserEntity implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")
   private int id;
-  @Column(name = "user_name")
+  @Column(name = "user_name", nullable = false)
   private String userName;
   @Column(name = "user_email", unique = true, nullable = false)
   private String userEmail;
-  @Column(name = "user_password")
+  @Column(name = "user_password", nullable = false)
   private String userPassword;
-  @Column(name = "user_age")
+  @Column(name = "user_age", nullable = false)
   private int userAge;
-  @Column(name = "user_country")
+  @Column(name = "user_country", nullable = false)
   private String userCountry;
-  @Column(name = "user_city")
+  @Column(name = "user_city", nullable = false)
   private String userCity;
-  @Column(name = "user_address")
+  @Column(name = "user_address", nullable = false)
   private String userAddress;
   // Unidirectional relationship
   @ManyToMany

@@ -1,105 +1,81 @@
 package com.inkwell.archives;
 
-import com.inkwell.archives.model.PermissionEntity;
-import com.inkwell.archives.model.RoleEntity;
-import com.inkwell.archives.model.UserEntity;
-import com.inkwell.archives.repository.PermissionRepository;
-import com.inkwell.archives.repository.RolesRepository;
-import com.inkwell.archives.repository.UserRepository;
-import com.inkwell.archives.service.AuthenticationService;
+
+import com.inkwell.archives.model.BookEntity;
+import com.inkwell.archives.model.DataSourceEntity;
+import com.inkwell.archives.repository.BookRepository;
+import com.inkwell.archives.repository.DataSourceRepository;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Role;
 
-import java.awt.geom.Line2D;
-import java.security.Permission;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 @SpringBootApplication
-public class inkwellArchivesApp {
-	// Creating Roles and their Permissions
-	public static void main(String[] args) {
-		SpringApplication.run(inkwellArchivesApp.class, args);
-		System.out.println("Application is running");
-	}
+public class inkwellArchivesApp implements CommandLineRunner {
 
+  @Autowired
+  private DataSourceRepository dataSourceRepository;
 
+  @Autowired
+  private BookRepository bookRepository;
 
-	@Bean
-	public CommandLineRunner commandLineRunner(
-					PermissionRepository permissionRepository,
-					RolesRepository rolesRepository,
-					UserRepository userRepository) {
-		return args -> {
+  public static void main(String[] args) {
+    SpringApplication.run(inkwellArchivesApp.class, args);
+    System.out.println("Application is running!");
+  }
 
-			// List to store permissions
-			List<PermissionEntity> permissionsForAdminRole = new ArrayList<>();
-			List<PermissionEntity> permissionsForUserRole = new ArrayList<>();
-			// List to store roles
-			List<RoleEntity> rolesListForAdmin = new ArrayList<>();
-			List<RoleEntity> rolesListForUsers = new ArrayList<>();
+  @Override
+  public void run(String... args) throws Exception {
+    scrapeBooks();
+  }
 
-			// Permissions for admin role
-			PermissionEntity edit_content = PermissionEntity.builder()
-							.permission("edit_content")
-							.build();
-			PermissionEntity remove_content = PermissionEntity.builder()
-							.permission("remove_content")
-							.build();
-			PermissionEntity consult_purchase = PermissionEntity.builder()
-							.permission("consult_purchase")
-							.build();
-			PermissionEntity consult_user_information = PermissionEntity.builder()
-							.permission("consult_user_information")
-							.build();
+  private void scrapeBooks() {
+    String urlHistoricalFiction =
+            "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html";
+    String urlTravel =
+            "https://books.toscrape.com/catalogue/category/books/travel_2/index.html";
+    String urlMysteryBook =
+            "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html";
 
+    String urlScienceBook =
+            "https://books.toscrape.com/catalogue/category/books/science_22/index.html";
 
-			permissionsForAdminRole.add(edit_content);
-			permissionsForAdminRole.add(remove_content);
-			permissionsForAdminRole.add(consult_purchase);
-			permissionsForAdminRole.add(consult_user_information);
+    String urlMusicBook =
+            "https://books.toscrape.com/catalogue/category/books/music_14/index.html";
 
-			// Permissions for user role
-			PermissionEntity purchase = PermissionEntity.builder()
-							.permission("purchase")
-							.build();
-			PermissionEntity update_personal_data = PermissionEntity.builder()
-							.permission("update_personal_data")
-							.build();
-			PermissionEntity consult_self_purchase = PermissionEntity.builder()
-							.permission("consult_self_purchase")
-							.build();
+    // Get mystery books
+    try {
+      Document document = Jsoup.connect(urlMusicBook).get();
+      Elements bookCategory = document.select("h1");
+      Elements elements = document.select(".product_pod");
+      DataSourceEntity sourceEntity = dataSourceRepository.findById(1).orElse(null);
+      for (Element bk : elements) {
 
-			permissionsForUserRole.add(purchase);
-			permissionsForUserRole.add(update_personal_data);
-			permissionsForUserRole.add(consult_self_purchase);
+        BookEntity scrappedBook = new BookEntity();
 
+        // Book price
+        String scrappedPrice = bk.select(".price_color").text();
+        String price = scrappedPrice.replace("£", "");
 
-			// Roles
-			RoleEntity admin = RoleEntity.builder()
-							.roleName("ADMIN")
-							.permissionList(permissionsForAdminRole)
-							.build();
-			RoleEntity user = RoleEntity.builder()
-							.roleName("USER")
-							.permissionList(permissionsForUserRole)
-							.build();
+        scrappedBook.setBookTitle(bk.select("h3 > a").text());
+        scrappedBook.setBookPrice(Float.parseFloat(price));
+        scrappedBook.setBookStock(19); // Placeholder, adjust as needed
+        scrappedBook.setUpcCode("mystery90fa6122"); // Replace with dynamic UPC generator if available
+        scrappedBook.setBookCategory(bookCategory.text());
+        // Set or parse category as needed
+        scrappedBook.setDataSource(sourceEntity);
 
-			/*permissionRepository.save(edit_content);
-			permissionRepository.save(remove_content);
-			permissionRepository.save(consult_purchase);
-			permissionRepository.save(consult_user_information);
-			permissionRepository.save(purchase);
-			permissionRepository.save(update_personal_data);
-			permissionRepository.save(consult_self_purchase);
+       // bookRepository.save(scrappedBook);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-			rolesRepository.save(admin);
-			rolesRepository.save(user);*/
-
-		};
-	}
-
+  }
 }

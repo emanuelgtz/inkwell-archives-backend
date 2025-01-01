@@ -52,4 +52,10 @@ public class DataSourceServiceImpl implements DataSourceService {
     }
     return theDataSourceName;
   }
+
+  @Override
+  public DataSourceEntity save(DataSourceEntity theDataSource) {
+
+    return dataSourceRepository.save(theDataSource);
+  }
 }

@@ -32,7 +32,10 @@ public class PurchaseEntity {
   @JoinColumn(name = "purchase_user_fk")
   private UserEntity purchaseUser;
 
-  // Bidirectional ManyToMany relationship between purchase and books
+  @Column(name ="purchase_quantity")
+  private int purchaseQuantity;
+
+  // Uni-directional ManyToMany relationship between purchase and books
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   @JoinTable(
           name = "purchased_books",
@@ -72,12 +75,21 @@ public class PurchaseEntity {
     this.books = books;
   }
 
+  public int getPurchaseQuantity() {
+    return purchaseQuantity;
+  }
+
+  public void setPurchaseQuantity(int purchaseQuantity) {
+    this.purchaseQuantity = purchaseQuantity;
+  }
+
   @Override
   public String toString() {
     return "PurchaseEntity{" +
             "id=" + id +
             ", purchaseDate=" + purchaseDate +
             ", purchaseUser=" + purchaseUser +
+            ", purchaseQuantity=" + purchaseQuantity +
             ", books=" + books +
             '}';
   }

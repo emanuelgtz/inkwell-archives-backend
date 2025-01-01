@@ -28,8 +28,10 @@ public class PurchaseServiceImpl implements PurchaseService {
   public List<PurchaseEntity> findAll() {
     return purchaseRepository.findAll();
   }
+
   @Override
   public PurchaseEntity findByPurchaseId(int purchaseId) {
+
     Optional<PurchaseEntity> result = purchaseRepository.findById(purchaseId);
 
     PurchaseEntity thePurchaseId = null;
@@ -40,6 +42,7 @@ public class PurchaseServiceImpl implements PurchaseService {
       throw new RuntimeException("Finding requested purchase id was not possible " + purchaseId);
     }
     return thePurchaseId;
+
   }
 
   @Override
@@ -59,7 +62,7 @@ public class PurchaseServiceImpl implements PurchaseService {
   }
 
   @Override
-  public PurchaseEntity createPurchase(PurchaseEntity request, List<BookEntity> books) {
+  public PurchaseEntity save(PurchaseEntity request) {
     // Validations to avoid having data issues when creating purchases
 
     if(request.getPurchaseDate() == null) {
@@ -74,24 +77,25 @@ public class PurchaseServiceImpl implements PurchaseService {
       throw new RuntimeException("Books list cannot be empty");
     }
 
-    UserEntity userId =
-            userService.findByUserId(
+    if (request.getPurchaseQuantity() <= 0) {
+      throw new IllegalArgumentException("The quantity cannot be 0");
+    }
+
+    UserEntity userId = userService.findByUserId(
                     request.getPurchaseUser().getId()
             );
+
+
 
     // Set the purchase data and user id
     request.setPurchaseUser(userId);
     request.setPurchaseDate(new Date());
-    request.setBooks(books);
+    request.setPurchaseQuantity(request.getPurchaseQuantity());
+    request.setBooks(request.getBooks());
 
     PurchaseEntity savedPurchase = purchaseRepository.save(request);
 
     return savedPurchase;
-  }
-
-  @Override
-  public PurchaseEntity save(PurchaseEntity thePurchase) {
-    return purchaseRepository.save(thePurchase);
   }
 
   @Override

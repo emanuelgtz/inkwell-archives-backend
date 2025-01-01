@@ -1,22 +1,12 @@
 package com.inkwell.archives.service.impl;
 
-import com.inkwell.archives.enums.PermissionEnum;
-import com.inkwell.archives.enums.RoleEnum;
 import com.inkwell.archives.model.PermissionEntity;
 import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.repository.RolesRepository;
-import com.inkwell.archives.service.interfaces.PermissionService;
 import com.inkwell.archives.service.interfaces.RoleService;
-import jakarta.annotation.PostConstruct;
-import org.hibernate.engine.jdbc.mutation.group.PreparedStatementDetails;
-import org.hibernate.validator.internal.constraintvalidators.bv.time.futureorpresent.FutureOrPresentValidatorForDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.PermissionCacheOptimizer;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
-import java.util.ArrayDeque;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 

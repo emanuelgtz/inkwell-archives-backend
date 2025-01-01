@@ -11,6 +11,7 @@ public interface BookService {
   List<BookEntity> findAll();
   BookEntity findByBookId(int bookId);
   BookEntity findByTitle(String bookTitle);
+  BookEntity updateByBookId(int bookId, BookEntity details);
   BookEntity save(BookEntity theBook);
   void deleteByBookId(int id);
 }

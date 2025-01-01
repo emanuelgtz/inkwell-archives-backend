@@ -1,14 +1,10 @@
 package com.inkwell.archives.service;
 
-import com.inkwell.archives.enums.PermissionEnum;
-import com.inkwell.archives.enums.RoleEnum;
 import com.inkwell.archives.model.PermissionEntity;
 import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.model.UserEntity;
 import com.inkwell.archives.repository.UserRepository;
-import org.springframework.beans.factory.SmartFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 // Creation of user details service.
 // File in charge of connecting to database and extract users/verify is user exists in database.
@@ -40,12 +35,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     if(userEntity.getRole() != null) {
       for(RoleEntity role : userEntity.getRole()) {
-        authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleName().toString())));
+        authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleName())));
 
         // Validation filter to permissions
         if(role.getPermissionList() != null) {
           for(PermissionEntity permission : role.getPermissionList()) {
-            authorityList.add(new SimpleGrantedAuthority(permission.getPermission().toString()));
+            authorityList.add(new SimpleGrantedAuthority(permission.getPermission()));
           }
         }
 

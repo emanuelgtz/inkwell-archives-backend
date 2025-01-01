@@ -1,8 +1,5 @@
 package com.inkwell.archives.service.impl;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
-import com.inkwell.archives.enums.PermissionEnum;
-import com.inkwell.archives.enums.RoleEnum;
 import com.inkwell.archives.model.PermissionEntity;
 import com.inkwell.archives.model.RoleEntity;
 import com.inkwell.archives.repository.PermissionRepository;
@@ -10,7 +7,6 @@ import com.inkwell.archives.service.interfaces.PermissionService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

@@ -1,11 +1,7 @@
 package com.inkwell.archives.model;
 
-import com.inkwell.archives.enums.PermissionEnum;
 import jakarta.persistence.*;
 import lombok.Builder;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "permissions")

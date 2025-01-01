@@ -11,7 +11,6 @@ public interface PurchaseService {
   List<PurchaseEntity> findAll();
   PurchaseEntity findByPurchaseId(int purchaseId);
   PurchaseEntity findByPurchaseDate(Date purchaseDate);
-  PurchaseEntity createPurchase(PurchaseEntity request, List<BookEntity> books);
-  PurchaseEntity save(PurchaseEntity thePurchase);
+  PurchaseEntity save(PurchaseEntity request);
   void deleteByPurchaseId(int id);
 }

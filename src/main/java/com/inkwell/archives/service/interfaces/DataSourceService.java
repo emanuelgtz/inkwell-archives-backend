@@ -10,5 +10,6 @@ public interface DataSourceService {
   List<DataSourceEntity> findAll();
   DataSourceEntity findById(int id);
   DataSourceEntity findByDataSourceName(String sourceName);
+  DataSourceEntity save(DataSourceEntity dataSourceEntity);
 
 }
