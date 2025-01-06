@@ -118,7 +118,4 @@ public class BookEntity {
             ", dataSource=" + dataSource +
             '}';
   }
-
-  public void setDataSource(Optional<DataSourceEntity> byId) {
-  }
 }

@@ -1,8 +1,11 @@
 package com.inkwell.archives.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -13,10 +16,8 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "users")
 public class UserEntity implements UserDetails {
-  public UserEntity(int id,
-                    String userName, String userEmail,
-                    String userPassword, int userAge, String userCountry,
-                    String userCity, String userAddress, List<RoleEntity> role) {
+
+  public UserEntity(int id, String userName, String userEmail, String userPassword, int userAge, String userCountry, String userCity, String userAddress, List<RoleEntity> role) {
     this.id = id;
     this.userName = userName;
     this.userEmail = userEmail;
@@ -29,6 +30,10 @@ public class UserEntity implements UserDetails {
   }
 
   public UserEntity() {
+  }
+
+  public UserEntity(int id) {
+    this.id = id;
   }
 
   @Id

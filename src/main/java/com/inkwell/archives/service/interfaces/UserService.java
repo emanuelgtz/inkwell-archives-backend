@@ -8,7 +8,6 @@ public interface UserService {
   List<UserEntity> findAll();
   UserEntity findByUserId(int id);
   UserEntity findByUserEmail(String userEmail);
-
   UserEntity save(UserEntity theUser);
   void deleteByUserId(int id);
 

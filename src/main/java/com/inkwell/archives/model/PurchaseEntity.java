@@ -1,5 +1,6 @@
 package com.inkwell.archives.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,8 +12,7 @@ import java.util.List;
 @Table(name = "purchase")
 public class PurchaseEntity {
 
-  public PurchaseEntity(Date purchaseDate, UserEntity purchaseUser,
-                        List<BookEntity> books) {
+  public PurchaseEntity(Date purchaseDate, UserEntity purchaseUser, List<BookEntity> books) {
     this.purchaseDate = purchaseDate;
     this.purchaseUser = purchaseUser;
     this.books = books;
@@ -35,12 +35,14 @@ public class PurchaseEntity {
   @Column(name ="purchase_quantity")
   private int purchaseQuantity;
 
-  // Uni-directional ManyToMany relationship between purchase and books
-  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @Column(name = "purchase_total_price")
+  private float purchaseTotalPrice;
+
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
           name = "purchased_books",
-          joinColumns = @JoinColumn(name = "book_id"),
-          inverseJoinColumns = @JoinColumn(name = "purchase_id"))
+          joinColumns = @JoinColumn(name = "purchase_id"),
+          inverseJoinColumns = @JoinColumn(name = "book_id"))
   private List<BookEntity> books = new ArrayList<>();
 
   public int getId() {
@@ -67,20 +69,28 @@ public class PurchaseEntity {
     this.purchaseUser = purchaseUser;
   }
 
-  public List<BookEntity> getBooks() {
-    return books;
-  }
-
-  public void setBooks(List<BookEntity> books) {
-    this.books = books;
-  }
-
   public int getPurchaseQuantity() {
     return purchaseQuantity;
   }
 
   public void setPurchaseQuantity(int purchaseQuantity) {
     this.purchaseQuantity = purchaseQuantity;
+  }
+
+  public float getPurchaseTotalPrice() {
+    return purchaseTotalPrice;
+  }
+
+  public void setPurchaseTotalPrice(float purchaseTotalPrice) {
+    this.purchaseTotalPrice = purchaseTotalPrice;
+  }
+
+  public List<BookEntity> getBooks() {
+    return books;
+  }
+
+  public void setBooks(List<BookEntity> books) {
+    this.books = books;
   }
 
   @Override
@@ -90,6 +100,7 @@ public class PurchaseEntity {
             ", purchaseDate=" + purchaseDate +
             ", purchaseUser=" + purchaseUser +
             ", purchaseQuantity=" + purchaseQuantity +
+            ", purchaseTotalPrice=" + purchaseTotalPrice +
             ", books=" + books +
             '}';
   }

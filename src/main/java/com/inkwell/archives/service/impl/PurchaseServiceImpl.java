@@ -81,19 +81,28 @@ public class PurchaseServiceImpl implements PurchaseService {
       throw new IllegalArgumentException("The quantity cannot be 0");
     }
 
-    UserEntity userId = userService.findByUserId(
-                    request.getPurchaseUser().getId()
-            );
+    if (request.getPurchaseTotalPrice() <= 0) {
+      throw new IllegalArgumentException("The purchase total price cannot be 0");
+    }
 
+    // Get the user id by using its repository
+    UserEntity userId = userService.findByUserId( request.getPurchaseUser().getId() );
 
+    if (userId  == null) {
+      throw new IllegalArgumentException("User with Id " + request.getPurchaseUser().getId() + " was not found");
+    }
 
     // Set the purchase data and user id
     request.setPurchaseUser(userId);
-    request.setPurchaseDate(new Date());
+    request.setPurchaseDate(request.getPurchaseDate());
     request.setPurchaseQuantity(request.getPurchaseQuantity());
+    request.setPurchaseTotalPrice(request.getPurchaseTotalPrice());
     request.setBooks(request.getBooks());
 
     PurchaseEntity savedPurchase = purchaseRepository.save(request);
+
+    /*List<BookEntity> books = new ArrayList<>();
+    request.setBooks(books);*/
 
     return savedPurchase;
   }
